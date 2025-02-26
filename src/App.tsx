@@ -5,8 +5,21 @@ function App() {
   const URL_dominio = "https://short-url-backend-cokq.onrender.com";
   const [urlInput, setUrlInput] = useState("");
   const [respUrl, setRespUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
+  const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 
   const handleClick = async () => {
+    // Validación mínima de URL
+    if (urlInput.trim() === "" || !urlInput) {
+      setError("La URL no puede estar vacía");
+      return;
+    } else if (!urlRegex.test(urlInput)) {
+      setError("Por favor, ingresa una URL válida.");
+      return;
+    }
+
+    setError(""); // Limpiar cualquier error previo
     console.log("Enviando: ", urlInput);
 
     // Enviar url al backend
@@ -31,6 +44,18 @@ function App() {
       console.error("Error al hacer la solicitud", error);
     }
   };
+
+  const handleCopy = () => {
+    const urlToCopy = `${URL_dominio}/${respUrl}`; // Crear la URL completa
+    navigator.clipboard
+      .writeText(urlToCopy) // Copiar la URL al portapapeles
+      .then(() => {
+        setCopied(true); // Cambiar el estado a "copiado"
+        setTimeout(() => setCopied(false), 2000); // Volver al texto original después de 2 segundos
+      })
+      .catch((err) => console.error("Error al copiar: ", err));
+  };
+
   return (
     <div className="flex items-center justify-center pb-40 bg-slate-800 min-h-screen text-white">
       <div className="flex flex-col gap-8 place-items-center bg-slate-700 px-20 py-10 rounded-xl">
@@ -44,13 +69,17 @@ function App() {
         <button onClick={handleClick} className="btn px-20">
           Generar URL
         </button>
+        {error && <p className="text-red-500">{error}</p>}
         {respUrl && (
           <p>
             Tu url generada:{" "}
             <a
               href={`${URL_dominio}/${respUrl}`}
+              target="_blank"
             >{`${URL_dominio}/${respUrl}`}</a>{" "}
-            <button>Copiar</button>
+            <button onClick={handleCopy} className="btn px-4">
+              {copied ? "¡Copiado!" : "Copiar"}
+            </button>
           </p>
         )}
       </div>
