@@ -1,4 +1,4 @@
-MONGO_URI (Atlas): mongodb+srv://root:cluster01234@cluster0.0n0s9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+MONGO_URI (Atlas) Entorno: mongodb+srv://root:cluster01234@cluster0.0n0s9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 Atlas:
 root
@@ -6,5 +6,3 @@ cluster01234
 
 Render url: https://short-url-backend-cokq.onrender.com
 
-
-asegurar CORS?
