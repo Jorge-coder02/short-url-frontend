@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const URL_dominio = "http://localhost:3001";
+  const URL_dominio = "https://short-url-backend-cokq.onrender.com";
   const [urlInput, setUrlInput] = useState("");
   const [respUrl, setRespUrl] = useState("");
 
