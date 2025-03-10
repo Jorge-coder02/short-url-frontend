@@ -13,7 +13,7 @@ function App() {
 
   const handleLoading = async () => {
     setLoading(true); // Mostrar msg Cargando...
-    setLongLoading(true); // Ocultar msg de carga prolongada
+    setLongLoading(false); // Ocultar msg de carga prolongada
     // cuando lleve 5 segundos, mostrar otro mensaje
     setTimeout(() => {
       setLoading((prev_loading) => {
