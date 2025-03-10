@@ -5,10 +5,25 @@ function App() {
   const URL_dominio = "https://short-url-backend-cokq.onrender.com";
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [longLoading, setLongLoading] = useState(false);
   const [respUrl, setRespUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+  const handleLoading = async () => {
+    setLoading(true); // Mostrar msg Cargando...
+    setLongLoading(true); // Ocultar msg de carga prolongada
+    // cuando lleve 5 segundos, mostrar otro mensaje
+    setTimeout(() => {
+      setLoading((prev_loading) => {
+        if (prev_loading) {
+          setLongLoading(true); // Mostrar msg cargando largo
+        }
+        return prev_loading;
+      });
+    }, 5000);
+  };
 
   const handleClick = async () => {
     // Validación mínima de URL
@@ -20,8 +35,8 @@ function App() {
       return;
     }
 
-    // Consultar al backend
-    setLoading(true); // Mostrar un spinner
+    // Si no hay errores ✅
+    handleLoading(); // gestionar msg loading
     setError(""); // Limpiar cualquier error previo
     console.log("Enviando: ", urlInput);
 
@@ -33,7 +48,6 @@ function App() {
       },
       body: JSON.stringify({ originalUrl: urlInput }), // Convertir la URL en JSON
     };
-
     try {
       const resp = await fetch(URL_dominio, params);
       if (resp.ok) {
@@ -46,10 +60,12 @@ function App() {
     } catch (error) {
       console.error("Error al hacer la solicitud", error);
     } finally {
-      setLoading(false); // Ocultar el spinner
+      setLoading(false);
+      setLongLoading(false);
     }
   };
 
+  // Función para copiar la URL al portapapeles
   const handleCopy = () => {
     const urlToCopy = `${URL_dominio}/${respUrl}`; // Crear la URL completa
     navigator.clipboard
@@ -74,6 +90,10 @@ function App() {
         <button onClick={handleClick} className="btn px-20">
           {loading ? "Cargando..." : "Generar URL"}
         </button>
+        <span>
+          {longLoading &&
+            "El primer uso en el día puede tomar hasta 25 segundos..."}
+        </span>
 
         {error && <p className="text-red-500">{error}</p>}
         {respUrl && (
