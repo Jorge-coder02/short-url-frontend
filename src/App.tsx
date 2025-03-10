@@ -4,6 +4,7 @@ import "./App.css";
 function App() {
   const URL_dominio = "https://short-url-backend-cokq.onrender.com";
   const [urlInput, setUrlInput] = useState("");
+  const [loading, setLoading] = useState(false);
   const [respUrl, setRespUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
@@ -19,6 +20,8 @@ function App() {
       return;
     }
 
+    // Consultar al backend
+    setLoading(true); // Mostrar un spinner
     setError(""); // Limpiar cualquier error previo
     console.log("Enviando: ", urlInput);
 
@@ -42,6 +45,8 @@ function App() {
       }
     } catch (error) {
       console.error("Error al hacer la solicitud", error);
+    } finally {
+      setLoading(false); // Ocultar el spinner
     }
   };
 
@@ -67,8 +72,9 @@ function App() {
           placeholder="Inserta URL"
         />
         <button onClick={handleClick} className="btn px-20">
-          Generar URL
+          {loading ? "Cargando..." : "Generar URL"}
         </button>
+
         {error && <p className="text-red-500">{error}</p>}
         {respUrl && (
           <p>
