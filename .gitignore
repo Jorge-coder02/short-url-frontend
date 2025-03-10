@@ -25,3 +25,6 @@ dist-ssr
 
 # Backend
 /server/
+
+# Var
+.pruebasshorturlback.txt

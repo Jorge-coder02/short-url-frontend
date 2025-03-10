@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: rgb(13 24 43);
+  font-family: "Nunito", sans-serif;
+}
+
+.div_app {
+  background-color: rgb(28 41 65);
+}

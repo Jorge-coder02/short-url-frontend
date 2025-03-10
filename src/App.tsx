@@ -57,8 +57,8 @@ function App() {
   };
 
   return (
-    <div className="flex items-center justify-center pb-40 bg-slate-800 min-h-screen text-white">
-      <div className="flex flex-col gap-8 place-items-center bg-slate-700 px-20 py-10 rounded-xl">
+    <div className="flex items-center justify-center pb-40 min-h-screen text-white">
+      <div className="flex flex-col gap-8 place-items-center px-20 py-10 rounded-xl div_app">
         <h1 className="text-4xl">ShortenURL by Jorge</h1>
         <input
           onChange={(e) => setUrlInput(e.target.value)}
