@@ -92,7 +92,7 @@ function App() {
         </button>
         <span>
           {longLoading &&
-            "El primer uso en el día puede tomar hasta 25 segundos..."}
+            "El primer uso de la web en el día puede tomar hasta 25 segundos..."}
         </span>
 
         {error && <p className="text-red-500">{error}</p>}
