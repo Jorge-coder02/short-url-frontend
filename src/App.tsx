@@ -79,17 +79,19 @@ function App() {
 
   return (
     <div className="flex items-center justify-center pb-40 min-h-screen text-white">
-      <div className="flex flex-col gap-8 place-items-center px-20 py-10 rounded-xl div_app">
-        <h1 className="text-4xl">ShortenURL by Jorge</h1>
+      <div className="flex flex-col gap-8 max-w-2xl px-20 py-10 rounded-xl div_app">
+        <h1 className="text-center text-4xl">ShortenURL by Jorge</h1>
         <input
           onChange={(e) => setUrlInput(e.target.value)}
           type="text"
-          className="input px-20 text-center bg-slate-600 placeholder-white truncate"
+          className="input text-center bg-slate-600 placeholder-white truncate"
           placeholder="Inserta URL"
         />
-        <button onClick={handleClick} className="btn px-20">
-          {loading ? "Cargando..." : "Generar URL"}
-        </button>
+        <div className="flex justify-center">
+          <button onClick={handleClick} className="btn px-20">
+            {loading ? "Cargando..." : "Generar URL"}
+          </button>
+        </div>
         <span>
           {longLoading &&
             "El primer uso de la web en el día puede tomar hasta 25 segundos..."}
@@ -97,16 +99,29 @@ function App() {
 
         {error && <p className="text-red-500">{error}</p>}
         {respUrl && (
-          <p>
-            Tu url generada:{" "}
-            <a
-              href={`${URL_dominio}/${respUrl}`}
-              target="_blank"
-            >{`${URL_dominio}/${respUrl}`}</a>{" "}
-            <button onClick={handleCopy} className="btn px-4">
-              {copied ? "¡Copiado!" : "Copiar"}
-            </button>
-          </p>
+          <div className="flex flex-col gap-y-8 text-center">
+            <div className="flex flex-col gap-y-1">
+              <span>Tu url generada: </span>
+              <div className="flex lg:flex-row flex-col items-center justify-center gap-x-2 gap-y-2">
+                <a
+                  className="hover:underline"
+                  href={`${URL_dominio}/${respUrl}`}
+                  target="_blank"
+                >{`${URL_dominio}/${respUrl}`}</a>{" "}
+                <button onClick={handleCopy} className="btn btn-success px-4">
+                  {copied ? "¡Copiado!" : "Copiar"}
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-y-1 text-gray-400">
+              <span>ℹ ¿Por qué la URL no es tan corta? </span>
+              <span className="text-sm">
+                El servidor se aloja en un dominio sin coste, por comodidad.
+                Este dominio no permite URLs cortas. Se espera migrar a un
+                dominio propio en el futuro.
+              </span>
+            </div>
+          </div>
         )}
       </div>
     </div>
