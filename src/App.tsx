@@ -5,7 +5,7 @@ function App() {
   const URL_dominio = import.meta.env.VITE_URL_BACKEND;
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [longLoading, setLongLoading] = useState(false);
+  const [longLoading, setLongLoading] = useState(false); //
   const [respUrl, setRespUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
