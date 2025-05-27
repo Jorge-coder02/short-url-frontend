@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const URL_dominio = "https://short-url-backend-cokq.onrender.com";
+  const URL_dominio = import.meta.env.VITE_URL_BACKEND;
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [longLoading, setLongLoading] = useState(false);
