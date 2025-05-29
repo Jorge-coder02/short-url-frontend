@@ -51,14 +51,15 @@ function App() {
     try {
       const resp = await fetch(URL_dominio, params);
       if (resp.ok) {
-        const data = await resp.json();
+        const data = await resp.json(); // objeto respuesta
         setRespUrl(data.shortId); // Guardar la URL acortada en el estado
-        console.log("Respuesta servidor: ", data.shortId);
       } else {
         console.error("Error al generar la URL corta");
+        setError("Error al generar URL.");
       }
     } catch (error) {
       console.error("Error al hacer la solicitud", error);
+      setError("Error al generar URL: " + error);
     } finally {
       setLoading(false);
       setLongLoading(false);
@@ -79,12 +80,12 @@ function App() {
 
   return (
     <div className="flex items-center justify-center pb-40 min-h-screen text-white">
-      <div className="flex flex-col gap-8 max-w-2xl px-20 py-10 rounded-xl div_app">
+      <div className="flex flex-col gap-8 max-w-2xl px-10 lg:px-10 py-10 rounded-xl div_app justify-center items-center">
         <h1 className="text-center text-4xl">ShortenURL by Jorge</h1>
         <input
           onChange={(e) => setUrlInput(e.target.value)}
           type="text"
-          className="input text-center bg-slate-600 placeholder-white truncate"
+          className="input w-[90%] text-center bg-slate-600 placeholder-white truncate"
           placeholder="Inserta URL"
         />
         <div className="flex justify-center">
@@ -100,9 +101,9 @@ function App() {
         {error && <p className="text-red-500">{error}</p>}
         {respUrl && (
           <div className="flex flex-col gap-y-8 text-center">
-            <div className="flex flex-col gap-y-1">
+            <div className="flex justify-center items-center flex-col">
               <span>Tu url generada: </span>
-              <div className="flex lg:flex-row flex-col items-center justify-center gap-x-2 gap-y-2">
+              <div className="flex lg:w-[100%] lg:flex-row flex-col items-center justify-center gap-x-4 gap-y-2">
                 <a
                   className="hover:underline"
                   href={`${URL_dominio}/${respUrl}`}
