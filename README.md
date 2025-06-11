@@ -10,4 +10,4 @@ La base de datos consta de esos mismos 2 campos principales: _originalUrl y shor
 La _respuesta_ que envía la bbdd al front es del ID corto generado, y se permite al usuario
 copiar el nuevo enlace o navegar directamente haciendo click en él
 
-# Tecnologías usadas: TypeScript, TailwindCSS + DaisyUI. Desplegado en Vercel
+# Tecnologías utilizadas: TypeScript, TailwindCSS + DaisyUI. Desplegado en Vercel
