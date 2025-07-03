@@ -78,6 +78,16 @@ function App() {
       .catch((err) => console.error("Error al copiar: ", err));
   };
 
+  // Función para construir la URL completa
+  // Asegura que el dominio y la ruta estén correctamente formateados
+  function buildUrl(domain: string, path: string): string {
+    const normalizedDomain = domain.endsWith("/")
+      ? domain.slice(0, -1)
+      : domain;
+    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+    return `${normalizedDomain}/${normalizedPath}`;
+  }
+
   return (
     <div className="flex items-center justify-center pb-40 min-h-screen text-white">
       <div className="flex flex-col gap-8 max-w-2xl px-10 lg:px-10 py-10 rounded-xl div_app justify-center items-center">
@@ -106,9 +116,12 @@ function App() {
               <div className="flex lg:w-[100%] lg:flex-row flex-col items-center justify-center gap-x-4 gap-y-2">
                 <a
                   className="hover:underline"
-                  href={`${URL_dominio}/${respUrl}`}
+                  href={buildUrl(URL_dominio, respUrl)}
                   target="_blank"
-                >{`${URL_dominio}/${respUrl}`}</a>{" "}
+                  rel="noopener noreferrer"
+                >
+                  {buildUrl(URL_dominio, respUrl)}
+                </a>
                 <button onClick={handleCopy} className="btn btn-success px-4">
                   {copied ? "¡Copiado!" : "Copiar"}
                 </button>
