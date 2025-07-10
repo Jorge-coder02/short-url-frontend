@@ -5,20 +5,19 @@ function App() {
   const URL_dominio = import.meta.env.VITE_URL_BACKEND;
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [longLoading, setLongLoading] = useState(false); //
+  const [longLoading, setLongLoading] = useState(false);
   const [respUrl, setRespUrl] = useState("");
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState("");
   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 
   const handleLoading = async () => {
-    setLoading(true); // Mostrar msg Cargando...
-    setLongLoading(false); // Ocultar msg de carga prolongada
-    // cuando lleve 5 segundos, mostrar otro mensaje
+    setLoading(true);
+    setLongLoading(false);
     setTimeout(() => {
       setLoading((prev_loading) => {
         if (prev_loading) {
-          setLongLoading(true); // Mostrar msg cargando largo
+          setLongLoading(true);
         }
         return prev_loading;
       });
@@ -26,7 +25,6 @@ function App() {
   };
 
   const handleClick = async () => {
-    // Validación mínima de URL
     if (urlInput.trim() === "" || !urlInput) {
       setError("La URL no puede estar vacía");
       return;
@@ -35,24 +33,23 @@ function App() {
       return;
     }
 
-    // Si no hay errores ✅
-    handleLoading(); // gestionar msg loading
-    setError(""); // Limpiar cualquier error previo
+    handleLoading();
+    setError("");
     console.log("Enviando: ", urlInput);
 
-    // Enviar url al backend
     const params = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json", // Necesario para enviar datos JSON
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ originalUrl: urlInput }), // Convertir la URL en JSON
+      body: JSON.stringify({ originalUrl: urlInput }),
     };
+
     try {
       const resp = await fetch(URL_dominio, params);
       if (resp.ok) {
-        const data = await resp.json(); // objeto respuesta
-        setRespUrl(data.shortId); // Guardar la URL acortada en el estado
+        const data = await resp.json();
+        setRespUrl(data.shortId);
       } else {
         console.error("Error al generar la URL corta");
         setError("Error al generar URL.");
@@ -66,25 +63,22 @@ function App() {
     }
   };
 
-  // Función para copiar la URL al portapapeles
+  // Copiar al portapapeles usando URL formateada correctamente
   const handleCopy = () => {
-    const urlToCopy = `${URL_dominio}/${respUrl}`; // Crear la URL completa
+    const urlToCopy = buildUrl(URL_dominio, respUrl);
     navigator.clipboard
-      .writeText(urlToCopy) // Copiar la URL al portapapeles
+      .writeText(urlToCopy)
       .then(() => {
-        setCopied(true); // Cambiar el estado a "copiado"
-        setTimeout(() => setCopied(false), 2000); // Volver al texto original después de 2 segundos
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
       })
       .catch((err) => console.error("Error al copiar: ", err));
   };
 
-  // Función para construir la URL completa
-  // Asegura que el dominio y la ruta estén correctamente formateados
+  // Formatear correctamente dominio + path
   function buildUrl(domain: string, path: string): string {
-    const normalizedDomain = domain.endsWith("/")
-      ? domain.slice(0, -1)
-      : domain;
-    const normalizedPath = path.startsWith("/") ? path.slice(1) : path;
+    const normalizedDomain = domain.replace(/\/+$/, "");
+    const normalizedPath = path.replace(/^\/+/, "");
     return `${normalizedDomain}/${normalizedPath}`;
   }
 
